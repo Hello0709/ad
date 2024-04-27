@@ -1,10 +1,12 @@
-package com.example.ad_exp_9;
+package com.example.internal;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,9 +22,11 @@ public class MainActivity extends AppCompatActivity {
         mEditText = findViewById(R.id.edit_text);// Finds the EditText view with the ID edit_text from the layout and stores its reference in mEditText for easier access.
     }
     public void Save(View view) {
+//        //File f=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "example.txt");
         String text = mEditText.getText().toString();//Gets the current text entered by the user in the mEditText and converts it to a String.
         FileOutputStream fos = null;// Declares a variable fos to hold a reference to a FileOutputStream object (used for writing data to a file). It's initialized to null.
         try {
+//            fos=new FileOutputStream(f);
             fos=openFileOutput(FILE_NAME,MODE_PRIVATE);//Opens a file output stream for the FILE_NAME with private mode (accessible only to this app). Stores the stream reference in fos.
             fos.write(text.getBytes());//Writes the user's text (converted to bytes) to the opened file.
             mEditText.getText().clear();//Clears the EditText content after saving.
@@ -43,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void Load(View view) {
+//        File f=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "example.txt");
+
         FileInputStream fis = null;//Declares a variable fis to hold a reference to a FileInputStream object (used for reading data from a file). It's initialized to null.
         try {
+//            fis=new FileInputStream(FILE_NAME);
             fis = openFileInput(FILE_NAME);// Opens a file input stream for the file named FILE_NAME (defined as "example.txt"). If the file doesn't exist, this line throws a FileNotFoundException. The stream reference is stored in fis.
             InputStreamReader isr = new InputStreamReader(fis);//Creates an `InputStreamReader` object. This is necessary because `FileInputStream` deals with bytes, while we want to read characters (text).
             BufferedReader br = new BufferedReader(isr);// Creates a `BufferedReader` object. This provides a more efficient way to read text from the `InputStreamReader` by reading lines at a time.
