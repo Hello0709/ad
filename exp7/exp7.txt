@@ -1,0 +1,152 @@
+**AndroidManifest.xml**
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Exp7"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+------------------------------------------------------------
+
+**MainActivity.java**
+
+package com.example.exp7;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;//handle data passed between activities
+import com.denzcoskun.imageslider.ImageSlider;//main class for creating image slider
+import com.denzcoskun.imageslider.constants.ScaleTypes;//options how to scale images within slider
+import com.denzcoskun.imageslider.models.SlideModel;//singe image within slider
+import java.util.ArrayList;
+import java.util.List;
+public class MainActivity extends AppCompatActivity {
+    @Override // indicates that this method overrides a method from the parent class (AppCompatActivity).
+    protected void onCreate(Bundle savedInstanceState) {//it is called when activity is first created
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ImageSlider slider=findViewById(R.id.slider1);//this line finds the view with the ID slider1 from the layout (presumably the image slider component). It stores the reference in the slider variable for further use.
+        List<SlideModel> slideModelList=new ArrayList<>();//This line creates a new list object of type List<SlideModel>. It will be used to store the data for each image slide.
+        slideModelList.add(new SlideModel(R.drawable.s1,"1",
+                ScaleTypes.FIT));
+        slideModelList.add(new SlideModel(R.drawable.s2,"2",
+                ScaleTypes.FIT));// This specifies how the image should be scaled within the slider (FIT ensures the entire image is visible).
+        slider.setImageList(slideModelList);
+
+    }
+}
+
+-------------------------------------------------------------
+
+**activity_main.xml**
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <com.denzcoskun.imageslider.ImageSlider
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:iss_auto_cycle="true"
+        app:iss_delay="0"
+        app:iss_corner_radius="5"
+        android:id="@+id/slider1"/>
+</RelativeLayout>
+
+-------------------------------------------------------------
+
+**settings.gradle**
+
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+rootProject.name = "exp7"
+include(":app")
+ 
+-------------------------------------------------------
+
+**build.gradle (app wala)**
+
+plugins {
+    alias(libs.plugins.androidApplication)
+}
+
+android {
+    namespace 'com.example.pract7'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.pract7"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+}
