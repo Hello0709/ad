@@ -195,4 +195,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 }
 
-//
+//local.properties
+MAPS_API_KEY = AIzaSyDrSQAiS1_PyDxw50HKoYeUg4tgEZo9lvE
+
